@@ -1,33 +1,61 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route } from 'react-router-dom'
+import NavBar from './components/NavBar'
+import Home from './pages/Home'
+import AlumnoList from './components/AlumnoList'
+import AlumnoForm from './components/AlumnoForm'
+import AlumnoDetail from './components/AlumnoDetail'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [alumnos, setAlumnos] = useState([
+    { id: 1, lu: 'APU00999', nombre: 'María Eugenia', apellido: 'Diaz', curso: 'Tercero', email: 'mariadiaz@mail.com' }
+  ])
+
+  const handleAddAlumno = (alumno) => {
+    // Agrega nuevo alumno
+    setAlumnos(prev => [...prev, alumno])
+  }
+
+  const handleEliminarAlumno = (id) => {
+    // Elimina alumno por id
+    setAlumnos(prev => prev.filter(a => a.id !== id))
+  }
+
+  const handleUpdateAlumno = (alumnoActualizado) => {
+    // Actualiza alumno existente
+    setAlumnos(prev => prev.map(al => al.id === alumnoActualizado.id ? alumnoActualizado : al))
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route 
+          path="/alumnos" 
+          element={
+            <AlumnoList 
+              alumnos={alumnos} 
+              onEliminar={handleEliminarAlumno} 
+            />
+          } 
+        />
+        <Route 
+          path="/alumnos/nuevo" 
+          element={<AlumnoForm onSave={handleAddAlumno} />} 
+        />
+        <Route 
+          path="/alumnos/:id" 
+          element={<AlumnoDetail />} 
+        />
+        <Route 
+          path="/alumnos/:id/editar" 
+          element={<AlumnoForm 
+            onSave={handleUpdateAlumno} 
+            alumnos={alumnos} 
+          />} 
+        />
+      </Routes>
     </>
   )
 }
