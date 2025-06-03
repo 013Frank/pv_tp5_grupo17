@@ -5,7 +5,6 @@ import { useParams, useNavigate } from 'react-router-dom'
 function AlumnoForm({ onSave, alumnos }) {
   const { id } = useParams()
   const navigate = useNavigate()
-
   const [alumno, setAlumno] = useState({
     id: null,
     lu: '',
@@ -17,7 +16,6 @@ function AlumnoForm({ onSave, alumnos }) {
     teléfono: ''
   })
 
-  // Cargar datos si estamos editando
   useEffect(() => {
     if (id && alumnos.length > 0) {
       const alumnoExistente = alumnos.find(al => al.id.toString() === id)
@@ -33,13 +31,10 @@ function AlumnoForm({ onSave, alumnos }) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    // Si es nuevo, asignar un id
-    if (!alumno.id) {
-      alumno.id = Date.now() // o usar uuid
-    }
-    // Guardar en la lista global
+    // Asigna id si es nuevo
+    const alumnoParaGuardar = alumno.id ? alumno : { ...alumno, id: Date.now() }
     if (onSave) {
-      onSave(alumno)
+      onSave(alumnoParaGuardar)
     }
     navigate('/alumnos')
   }
@@ -47,13 +42,16 @@ function AlumnoForm({ onSave, alumnos }) {
   return (
     <Container>
       <form onSubmit={handleSubmit}>
-        <TextField label="LU" name="lu" value={alumno.lu} onChange={handleChange} fullWidth />
-        <TextField label="Nombre" name="nombre" value={alumno.nombre} onChange={handleChange} fullWidth />
-        <TextField label="Apellido" name="apellido" value={alumno.apellido} onChange={handleChange} fullWidth />
-        <TextField label="Curso" name="curso" value={alumno.curso} onChange={handleChange} fullWidth />
-        <TextField label="Email" name="email" value={alumno.email} onChange={handleChange} fullWidth />
-        {/* Otros campos */}
-        <Button type="submit" variant="contained" color="primary" style={{ marginTop: '1rem' }}>Guardar</Button>
+        <TextField label="LU" name="lu" value={alumno.lu} onChange={handleChange} fullWidth margin="normal"/>
+        <TextField label="Nombre" name="nombre" value={alumno.nombre} onChange={handleChange} fullWidth margin="normal"/>
+        <TextField label="Apellido" name="apellido" value={alumno.apellido} onChange={handleChange} fullWidth margin="normal"/>
+        <TextField label="Curso" name="curso" value={alumno.curso} onChange={handleChange} fullWidth margin="normal"/>
+        <TextField label="Email" name="email" value={alumno.email} onChange={handleChange} fullWidth margin="normal"/>
+        <TextField label="Domicilio" name="domicilio" value={alumno.domicilio} onChange={handleChange} fullWidth margin="normal"/>
+        <TextField label="Teléfono" name="teléfono" value={alumno.teléfono} onChange={handleChange} fullWidth margin="normal"/>
+        <Button type="submit" variant="contained" color="primary" style={{ marginTop: '1rem' }}>
+          Guardar
+        </Button>
       </form>
     </Container>
   )

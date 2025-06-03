@@ -8,36 +8,33 @@ import AlumnoDetail from './components/AlumnoDetail'
 
 function App() {
   const [alumnos, setAlumnos] = useState([
-    { id: 1, lu: 'APU00999', nombre: 'María Eugenia', apellido: 'Diaz', curso: 'Tercero', email: 'mariadiaz@mail.com' }
+    { id: 1, lu: 'APU00999', nombre: 'María Eugenia', apellido: 'Diaz', curso: 'Tercero', email: 'mariadiaz@mail.com', domicilio: 'Av. Congreso 125', teléfono: '3884895999' }
   ])
-
   const [notification, setNotification] = useState('')
 
-  const handleNotification = () => {
+  const handleNotification = (message) => {
     setNotification(message)
+    // Limpiar la notificación después de unos segundos
     setTimeout(() => {
       setNotification('')
     }, 4000)
   }
 
   const handleAddAlumno = (alumno) => {
-    // Agrega nuevo alumno
     setAlumnos(prev => [...prev, alumno])
-    handleNotification('¡Alumno guardado exitosamente!')
+    handleNotification('Alumno guardado exitosamente!')
   }
 
   const handleEliminarAlumno = (id) => {
-    // Elimina alumno por id
     if (window.confirm("¿Estás seguro de eliminar este alumno?")) {
       setAlumnos(prev => prev.filter(a => a.id !== id))
-      handleNotification('Alumno eliminado exitosamente')
+      handleNotification('Alumno eliminado exitosamente!')
     }
   }
 
   const handleUpdateAlumno = (alumnoActualizado) => {
-    // Actualiza alumno existente
     setAlumnos(prev => prev.map(al => al.id === alumnoActualizado.id ? alumnoActualizado : al))
-    handleNotification('¡Se actualizó alumno exitosamente!')
+    handleNotification('Alumno actualizado exitosamente!')
   }
 
   return (
@@ -58,29 +55,31 @@ function App() {
       )}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route 
-          path="/alumnos" 
+        <Route
+          path="/alumnos"
           element={
-            <AlumnoList 
-              alumnos={alumnos} 
-              onEliminar={handleEliminarAlumno} 
+            <AlumnoList
+              alumnos={alumnos}
+              onEliminar={handleEliminarAlumno}
             />
-          } 
+          }
         />
-        <Route 
-          path="/alumnos/nuevo" 
-          element={<AlumnoForm onSave={handleAddAlumno} />} 
+        <Route
+          path="/alumnos/nuevo"
+          element={<AlumnoForm onSave={handleAddAlumno} />}
         />
-        <Route 
-          path="/alumnos/:id" 
-          element={<AlumnoDetail />} 
+        <Route
+          path="/alumnos/:id"
+          element={<AlumnoDetail />}
         />
-        <Route 
-          path="/alumnos/:id/editar" 
-          element={<AlumnoForm 
-            onSave={handleUpdateAlumno} 
-            alumnos={alumnos} 
-          />} 
+        <Route
+          path="/alumnos/:id/editar"
+          element={
+            <AlumnoForm
+              onSave={handleUpdateAlumno}
+              alumnos={alumnos}
+            />
+          }
         />
       </Routes>
     </>
