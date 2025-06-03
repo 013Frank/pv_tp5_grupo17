@@ -1,4 +1,3 @@
-// AlumnoDetail.jsx
 import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { Container, Typography } from '@mui/material'
