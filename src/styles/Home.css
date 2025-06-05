@@ -1,0 +1,35 @@
+.home-container {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f0f8ff;
+  min-height: 100vh;
+  padding-bottom: 40px;
+}
+
+.hero-section {
+  background: linear-gradient(to right, #0d47a1, #1976d2);
+  padding: 80px 20px;
+}
+
+/* Cards */
+.card-title {
+  font-weight: bold;
+}
+
+.card {
+  border: none;
+  transition: transform 0.3s ease;
+  background-color: #ffffff;
+}
+
+.card:hover {
+  transform: scale(1.01);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+ul {
+  padding-left: 1.2rem;
+}
+
+.text-justify {
+  text-align: justify;
+}
