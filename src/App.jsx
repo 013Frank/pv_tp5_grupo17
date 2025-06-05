@@ -5,6 +5,7 @@ import Home from './pages/Home'
 import AlumnoList from './components/AlumnoList'
 import AlumnoForm from './components/AlumnoForm'
 import AlumnoDetail from './components/AlumnoDetail'
+import Footer from '../src/components/Footer';
 
 function App() {
   const [alumnos, setAlumnos] = useState([
@@ -82,6 +83,7 @@ function App() {
           }
         />
       </Routes>
+      <Footer />
     </>
   )
 }
