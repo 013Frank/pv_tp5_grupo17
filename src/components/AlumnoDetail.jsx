@@ -5,24 +5,33 @@ import { Container, Typography } from '@mui/material'
 function AlumnoDetail() {
   const { id } = useParams()
   const [alumno, setAlumno] = useState(null)
+  const [cargando, setCargando] = useState(true)
 
   useEffect(() => {
-    // Por ahora, se simula la búsqueda, hay que ver de agregarla correctamente
     const alumnosLocal = JSON.parse(localStorage.getItem('alumnos')) || []
-    const alumnoEncontrado = alumnosLocal.find(a => a.id.toString() === id)
-    setAlumno(alumnoEncontrado)
+    const encontrado = alumnosLocal.find(a => a.id.toString() === id)
+    setAlumno(encontrado || null)
+    setCargando(false)
   }, [id])
 
+  if (cargando){
+    return(
+      <Container>
+        <Typography variant='h6'>Cargando alumnos...</Typography>
+      </Container>
+    )
+  }
+  
   if (!alumno) return (
     <Container>
-      <Typography variant="h6">Cargando datos del alumno...</Typography>
+      <Typography variant="h6">Alumno no encontrado</Typography>
     </Container>
   )
 
   return (
     <Container>
       <Typography variant="h5" gutterBottom>Detalle del Alumno</Typography>
-      <p><strong>LU:</strong> {alumno.lu}</p>
+      <p><strong>LU:</strong> {alumno.id}</p>
       <p><strong>Nombre:</strong> {alumno.nombre} {alumno.apellido}</p>
       <p><strong>Curso:</strong> {alumno.curso}</p>
       <p><strong>Email:</strong> {alumno.email}</p>
