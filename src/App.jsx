@@ -8,6 +8,7 @@ import AlumnoDetail from './components/AlumnoDetail'
 import Footer from '../src/components/Footer';
 import './App.css';
 import { useEffect } from 'react'
+import Acerca from './components/Acerca'
 
 function App() {
   const [alumnos, setAlumnos] = useState([
@@ -88,6 +89,7 @@ function App() {
             />
           }
         />
+        <Route path="/Acerca" element={<Acerca />} />
       </Routes>
         <Footer />
       </div>
