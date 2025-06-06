@@ -11,14 +11,19 @@ import { useEffect } from 'react'
 import Acerca from './components/Acerca'
 
 function App() {
-  const [alumnos, setAlumnos] = useState([
-    { id: 1, lu: 'APU00999', nombre: 'María Eugenia', apellido: 'Diaz', curso: 'Tercero', email: 'mariadiaz@mail.com', domicilio: 'Av. Congreso 125', teléfono: '3884895999' }
-  ])
+  const [alumnos, setAlumnos] = useState(() => {
+    const stored = localStorage.getItem('alumnos');
+    return stored
+      ? JSON.parse(stored)
+      : [
+        { id: 1, lu: 'APU00929', nombre: 'María Eugenia', apellido: 'Diaz', curso: 'Tercero', email: 'mariadiaz@mail.com', domicilio: 'Av. Congreso 125', teléfono: '3884895999' },
+        
+        ];
+  });
   const [notification, setNotification] = useState('')
 
   const handleNotification = (message) => {
     setNotification(message)
-    // Limpiar la notificación después de unos segundos
     setTimeout(() => {
       setNotification('')
     }, 4000)

@@ -31,7 +31,7 @@ function AlumnoDetail() {
   return (
     <Container>
       <Typography variant="h5" gutterBottom>Detalle del Alumno</Typography>
-      <p><strong>LU:</strong> {alumno.id}</p>
+      <p><strong>LU:</strong> {alumno.lu}</p>
       <p><strong>Nombre:</strong> {alumno.nombre} {alumno.apellido}</p>
       <p><strong>Curso:</strong> {alumno.curso}</p>
       <p><strong>Email:</strong> {alumno.email}</p>
