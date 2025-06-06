@@ -6,6 +6,8 @@ import AlumnoList from './components/AlumnoList'
 import AlumnoForm from './components/AlumnoForm'
 import AlumnoDetail from './components/AlumnoDetail'
 import Footer from '../src/components/Footer';
+import './App.css';
+import { useEffect } from 'react'
 
 function App() {
   const [alumnos, setAlumnos] = useState([
@@ -37,9 +39,13 @@ function App() {
     setAlumnos(prev => prev.map(al => al.id === alumnoActualizado.id ? alumnoActualizado : al))
     handleNotification('Alumno actualizado exitosamente!')
   }
+  useEffect(() => {
+  localStorage.setItem('alumnos', JSON.stringify(alumnos))
+  }, [alumnos])
 
   return (
     <>
+    <div className="main-layout">
       <NavBar />
       {notification && (
         <div style={{
@@ -83,7 +89,8 @@ function App() {
           }
         />
       </Routes>
-      <Footer />
+        <Footer />
+      </div>
     </>
   )
 }
