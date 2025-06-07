@@ -11,14 +11,22 @@ import { useEffect } from 'react'
 import Acerca from './components/Acerca'
 
 function App() {
-  const [alumnos, setAlumnos] = useState([
-    { id: 1, lu: 'APU00999', nombre: 'María Eugenia', apellido: 'Diaz', curso: 'Tercero', email: 'mariadiaz@mail.com', domicilio: 'Av. Congreso 125', teléfono: '3884895999' }
-  ])
+  const [alumnos, setAlumnos] = useState(() => {
+    const stored = localStorage.getItem('alumnos');
+    return stored
+      ? JSON.parse(stored)
+      : [
+      { id: 1, lu: 'APU00999', nombre: 'María Eugenia', apellido: 'Diaz', curso: 'Tercero', email: 'mariadiaz@mail.com', domicilio: 'Av. Congreso 125', teléfono: '3884895999' },
+      { id: 2, lu: 'APU00999', nombre: 'Franco German', apellido: 'Cruz', curso: 'Segundo', email: 'francocruz@email.com', domicilio: 'Av. Congreso 125', teléfono: '3884895999' },
+      { id: 4, lu: 'APU00999', nombre: 'Armella Julian', apellido: 'Enrique', curso: 'Segundo', email: 'julianenrique@email.com', domicilio: 'Av. Congreso 125', teléfono: '3884895999' },
+      { id: 5, lu: 'APU00999', nombre: 'Sofia Guadalupe', apellido: 'Cabana', curso: 'Segundo', email: 'sofiacabana@email.com', domicilio: 'Av. Congreso 125', teléfono: '3884895999' },
+      { id: 6, lu: 'APU00999', nombre: 'Marcos Alejandro Nicolás', apellido: 'Chavarria', curso: 'Segundo', email: 'marcoschavarria@email.com', domicilio: 'Av. Congreso 125', teléfono: '3884895999' }
+      ];
+  });
   const [notification, setNotification] = useState('')
 
   const handleNotification = (message) => {
     setNotification(message)
-    // Limpiar la notificación después de unos segundos
     setTimeout(() => {
       setNotification('')
     }, 4000)

@@ -1,6 +1,13 @@
 import { useState, useEffect } from 'react'
-import { Container, TextField, Button } from '@mui/material'
 import { useParams, useNavigate } from 'react-router-dom'
+import {
+  Box,
+  Button,
+  MenuItem,
+  TextField,
+  Typography,
+  Paper
+} from '@mui/material'
 
 function AlumnoForm({ onSave, alumnos }) {
   const { id } = useParams()
@@ -18,10 +25,8 @@ function AlumnoForm({ onSave, alumnos }) {
 
   useEffect(() => {
     if (id && alumnos.length > 0) {
-      const alumnoExistente = alumnos.find(al => al.id.toString() === id)
-      if (alumnoExistente) {
-        setAlumno(alumnoExistente)
-      }
+      const encontrado = alumnos.find(a => a.id.toString() === id)
+      if (encontrado) setAlumno(encontrado)
     }
   }, [id, alumnos])
 
@@ -31,29 +36,60 @@ function AlumnoForm({ onSave, alumnos }) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    // Asigna id si es nuevo
-    const alumnoParaGuardar = alumno.id ? alumno : { ...alumno, id: Date.now() }
-    if (onSave) {
-      onSave(alumnoParaGuardar)
-    }
+    let nuevoAlumno = alumno.id ? alumno : { ...alumno, id: Date.now() }
+    if (onSave) onSave(nuevoAlumno)
     navigate('/alumnos')
   }
 
   return (
-    <Container>
-      <form onSubmit={handleSubmit}>
-        <TextField label="LU" name="lu" value={alumno.lu} onChange={handleChange} fullWidth margin="normal"/>
-        <TextField label="Nombre" name="nombre" value={alumno.nombre} onChange={handleChange} fullWidth margin="normal"/>
-        <TextField label="Apellido" name="apellido" value={alumno.apellido} onChange={handleChange} fullWidth margin="normal"/>
-        <TextField label="Curso" name="curso" value={alumno.curso} onChange={handleChange} fullWidth margin="normal"/>
-        <TextField label="Email" name="email" value={alumno.email} onChange={handleChange} fullWidth margin="normal"/>
-        <TextField label="Domicilio" name="domicilio" value={alumno.domicilio} onChange={handleChange} fullWidth margin="normal"/>
-        <TextField label="Teléfono" name="teléfono" value={alumno.teléfono} onChange={handleChange} fullWidth margin="normal"/>
-        <Button type="submit" variant="contained" color="primary" style={{ marginTop: '1rem' }}>
+    <Paper elevation={3} sx={{ maxWidth: 400, mx: 'auto', mt: 4, p: 3 }}>
+      <Typography variant="h5" gutterBottom>
+        {alumno.id ? 'Editar Alumno' : 'Nuevo Alumno'}
+      </Typography>
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+      >
+        {[
+          { label: 'LU', name: 'lu', required: true },
+          { label: 'Nombre', name: 'nombre', required: true },
+          { label: 'Apellido', name: 'apellido', required: true },
+          { label: 'Email', name: 'email', type: 'email', required: true },
+          { label: 'Domicilio', name: 'domicilio' },
+          { label: 'Teléfono', name: 'teléfono' }
+        ].map(({ label, name, type, required }) => (
+          <TextField
+            key={name}
+            label={label}
+            name={name}
+            value={alumno[name]}
+            onChange={handleChange}
+            type={type || 'text'}
+            required={required}
+            fullWidth
+          />
+        ))}
+        <TextField
+          select
+          label="Curso"
+          name="curso"
+          value={alumno.curso}
+          onChange={handleChange}
+          required
+          fullWidth
+        >
+          {['', 'Primero', 'Segundo', 'Tercero', 'Cuarto', 'Quinto'].map((curso) => (
+            <MenuItem key={curso} value={curso}>
+              {curso || 'Seleccione un curso'}
+            </MenuItem>
+          ))}
+        </TextField>
+        <Button type="submit" variant="contained" sx={{ mt: 2 }} fullWidth>
           Guardar
         </Button>
-      </form>
-    </Container>
+      </Box>
+    </Paper>
   )
 }
 
